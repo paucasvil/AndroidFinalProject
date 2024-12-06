@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
+
+    kotlin("kapt") // o ksp si usas Kotlin Symbol Processing
+    id("com.google.devtools.ksp") // Agrega el plugin de KSP
 }
 
 android {
@@ -50,7 +54,23 @@ android {
 }
 
 dependencies {
+    // Room
+    implementation("androidx.room:room-runtime:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.0")
+    ksp("androidx.room:room-compiler:2.5.0") // Cambia kapt por ksp
 
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-compiler:2.46.1")
+    // Navigation
+    val nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // Swipe
+    implementation("me.saket.swipe:swipe:1.1.1")
+
+
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

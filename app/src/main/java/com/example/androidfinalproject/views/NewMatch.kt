@@ -1,11 +1,13 @@
 package com.example.androidfinalproject.views
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,17 +21,30 @@ import com.example.androidfinalproject.model.Match
 import com.example.androidfinalproject.viewmodels.MatchViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.androidfinalproject.viewmodels.TeamViewModel
+import com.example.androidfinalproject.model.Team
 
 @Composable
-fun NewMatchView(navController: NavController, teamA: String, teamB: String, viewModel: MatchViewModel = hiltViewModel()) {
+fun NewMatchView(navController: NavController, teamA: String, teamB: String,
+                 viewModel: MatchViewModel = hiltViewModel(), viewModel2: TeamViewModel = hiltViewModel()) {
+
     val teamAPoints = remember { mutableStateOf(0) }
     val teamBPoints = remember { mutableStateOf(0) }
     val currentServer = remember { mutableStateOf(teamA) }
 
-    // Colores personalizados
-    val lightBlue = Color(0xFFADD8E6)
-    val lightGreen = Color(0xFF90EE90)
+    val teamAColor = remember { mutableStateOf("#0000FF") } // Color por defecto
+    val teamBColor = remember { mutableStateOf("#FFA500") } // Color por defecto
+    LaunchedEffect(teamA) {
+        viewModel2.getTeamColor(teamA).collect { color ->
+            teamAColor.value = color
+        }
+    }
 
+    LaunchedEffect(teamB) {
+        viewModel2.getTeamColor(teamB).collect { color ->
+            teamBColor.value = color
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -42,7 +57,7 @@ fun NewMatchView(navController: NavController, teamA: String, teamB: String, vie
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(lightBlue)
+                .background(Color(android.graphics.Color.parseColor(teamAColor.value)))
                 .clickable {
                     if (currentServer.value == teamA) {
                         teamAPoints.value += 1
@@ -66,7 +81,7 @@ fun NewMatchView(navController: NavController, teamA: String, teamB: String, vie
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(lightGreen)
+                .background(Color(android.graphics.Color.parseColor(teamBColor.value)))
                 .clickable {
                     if (currentServer.value == teamB) {
                         teamBPoints.value += 1

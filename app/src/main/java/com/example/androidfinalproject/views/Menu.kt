@@ -36,9 +36,29 @@ fun MenuView(navController: NavController) {
 
         Button(
             onClick = { navController.navigate("Show") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
         ) {
             Text(text = "Lista de Partidos")
+        }
+
+        Button(
+            onClick = { navController.navigate("TeamList") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+        ) {
+            Text(text = "Lista de equipos")
+        }
+
+        Button(
+            onClick = { navController.navigate("CreateTeam") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+        ) {
+            Text(text = "Crear un equipo")
         }
     }
 }

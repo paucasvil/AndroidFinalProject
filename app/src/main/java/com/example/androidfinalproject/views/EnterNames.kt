@@ -1,5 +1,7 @@
 package com.example.androidfinalproject.views
 
+import android.graphics.Color
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,15 +20,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.androidfinalproject.model.Team
+import com.example.androidfinalproject.viewmodels.TeamViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun EnterTeamNamesView(navController: NavController) {
+fun EnterTeamNamesView(navController: NavController, viewModel: TeamViewModel = hiltViewModel()) {
     // Estados para nombres de equipos
     var teamAName by remember { mutableStateOf("") }
     var teamBName by remember { mutableStateOf("") }
+    var teamAColor by remember { mutableStateOf("#FF0000") }  // Color rojo por defecto
+    var teamBColor by remember { mutableStateOf("#0000FF") }  // Color azul por defecto
 
-    // Opciones para seleccionar nombres
-    val teamOptions = listOf("Equipo 1", "Equipo 2", "Equipo 3", "Equipo 4")
+
+    // Obtener lista de equipos desde el ViewModel
+    val teams by viewModel.teamList.collectAsState()
+
+
     var expandedA by remember { mutableStateOf(false) }
     var expandedB by remember { mutableStateOf(false) }
 
@@ -46,10 +56,10 @@ fun EnterTeamNamesView(navController: NavController) {
         Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
                 value = teamAName,
-                onValueChange = { teamAName = it },
+                onValueChange = {  },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Selecciona Equipo Local") },
-                readOnly = false,
+                readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { expandedA = true }) {
                         Icon(Icons.Default.ArrowDropDown, contentDescription = "Abrir menú")
@@ -60,13 +70,14 @@ fun EnterTeamNamesView(navController: NavController) {
                 expanded = expandedA,
                 onDismissRequest = { expandedA = false }
             ) {
-                teamOptions.forEach { team ->
+                teams.forEach { team ->
                     DropdownMenuItem(
                         text = {
-                            Text(text = team) // El texto del ítem
+                            Text(text = team.name)
                         },
                         onClick = {
-                            teamAName = team
+                            teamAName = team.name
+                            teamAColor = team.color // Asignar el color del equipo
                             expandedA = false
                         }
                     )
@@ -81,10 +92,10 @@ fun EnterTeamNamesView(navController: NavController) {
         Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
                 value = teamBName,
-                onValueChange = { teamBName = it },
+                onValueChange = { },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Selecciona Equipo Visitante") },
-                readOnly = false,
+                readOnly = true,
                 trailingIcon = {
                     IconButton(onClick = { expandedB = true }) {
                         Icon(Icons.Default.ArrowDropDown, contentDescription = "Abrir menú")
@@ -95,13 +106,14 @@ fun EnterTeamNamesView(navController: NavController) {
                 expanded = expandedB,
                 onDismissRequest = { expandedB = false }
             ) {
-                teamOptions.forEach { team ->
+                teams.forEach { team ->
                     DropdownMenuItem(
                         text = {
-                            Text(text = team) // El texto del ítem
+                            Text(text = team.name)
                         },
                         onClick = {
-                            teamBName = team
+                            teamBName = team.name
+                            teamBColor = team.color // Asignar el color del equipo
                             expandedB = false
                         }
                     )
@@ -110,6 +122,18 @@ fun EnterTeamNamesView(navController: NavController) {
         }
 
         Spacer(modifier = Modifier.height(32.dp))
+
+        // Botón para crear un nuevo equipo
+        Button(
+            onClick = {
+                navController.navigate("CreateTeam") // Navegar a la vista de crear equipo
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Crear Nuevo Equipo")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Botón para continuar
         Button(
@@ -123,5 +147,6 @@ fun EnterTeamNamesView(navController: NavController) {
         ) {
             Text(text = "Iniciar Partido")
         }
+
     }
 }

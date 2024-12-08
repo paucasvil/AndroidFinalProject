@@ -2,6 +2,7 @@ package com.example.androidfinalproject.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.androidfinalproject.room.TeamDao
 import com.example.androidfinalproject.room.MatchDatabase
 import com.example.androidfinalproject.room.MatchDatabaseDao
 import dagger.Module
@@ -20,6 +21,13 @@ object AppModule {
     @Provides
     fun provideMatchDao(matchDatabase: MatchDatabase): MatchDatabaseDao {
         return matchDatabase.matchDatabaseDao()
+    }
+
+    // Proveer el DAO TeamDao
+    @Singleton
+    @Provides
+    fun provideTeamDao(matchDatabase: MatchDatabase): TeamDao {
+        return matchDatabase.teamDao()
     }
 
     // Proveer la base de datos MatchDatabase

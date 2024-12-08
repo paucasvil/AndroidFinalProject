@@ -69,7 +69,8 @@ dependencies {
 
     // Swipe
     implementation("me.saket.swipe:swipe:1.1.1")
-
+    //Colors
+    implementation ("com.google.android.material:material:1.8.0")
 
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
     implementation(libs.androidx.core.ktx)

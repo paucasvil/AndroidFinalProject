@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -22,12 +23,8 @@ import com.example.androidfinalproject.viewmodels.TeamViewModel
 fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hiltViewModel()) {
     var name by remember { mutableStateOf("") }
     var coach by remember { mutableStateOf("") }
-    var selectedColor by remember { mutableStateOf("#FFFFFF") } // Color por defecto (blanco)
-
-    // Lista de colores disponibles
-    val colorOptions = listOf(
-        "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFA500", "#808080", "#800080"
-    )
+    val selectedColor = remember { mutableStateOf(Color.White) } // Color seleccionado
+    val openDialog = remember { mutableStateOf(false) } // Controlar apertura del diálogo
 
     Column(
         modifier = Modifier
@@ -53,54 +50,137 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Selección de color
-        Text(text = "Color del Equipo:", fontSize = 18.sp)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            colorOptions.forEach { color ->
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(Color(android.graphics.Color.parseColor(color)))
-                        .clickable {
-                            selectedColor = color // Guardar el color seleccionado
-                        }
-                        .border(
-                            width = if (selectedColor == color) 2.dp else 0.dp,
-                            color = Color.Black
-                        )
-                )
-            }
+        // Botón para abrir el Color Picker
+        Button(onClick = { openDialog.value = true }) {
+            Text("Seleccionar Color")
+        }
+
+        // Mostrar el color seleccionado
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .background(selectedColor.value)
+                .border(2.dp, Color.Black)
+        )
+
+        // Dialog para seleccionar color
+        if (openDialog.value) {
+            ColorPickerDialog(
+                selectedColor = selectedColor,
+                onDismiss = { openDialog.value = false }
+            )
         }
 
         // Botón para guardar el equipo
         Button(
             onClick = {
-                // Validación básica de los campos
                 if (name.isNotEmpty() && coach.isNotEmpty()) {
                     val newTeam = Team(
                         name = name,
                         coach = coach,
-                        color = selectedColor
+                        color = selectedColor.value.toHex()
                     )
-                    // Intentamos agregar el equipo y manejar posibles excepciones
-                    try {
-                        viewModel.addTeam(newTeam) // Agregar equipo a la base de datos
-                        navController.navigate("TeamList") // Navegar a la lista de equipos
-                    } catch (e: Exception) {
-                        // Manejo de error si falla la inserción
-                        println("Error al agregar el equipo: ${e.message}")
-                    }
-                } else {
-                    // Mostrar un mensaje si los campos están vacíos
-                    println("Por favor complete todos los campos.")
+                    viewModel.addTeam(newTeam)
+                    navController.navigate("TeamList")
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Crear Equipo")
+            Text("Crear Equipo")
         }
     }
+}
+
+@Composable
+fun ColorPickerDialog(
+    selectedColor: MutableState<Color>,
+    onDismiss: () -> Unit
+) {
+    val colors = listOf(
+        Color(0xFFFF0000), // Red
+        Color(0xFF00FF00), // Green
+        Color(0xFF0000FF), // Blue
+        Color(0xFFFFFF00), // Yellow
+        Color(0xFF00FFFF), // Cyan
+        Color(0xFFFF00FF), // Magenta
+        Color(0xFF808080), // Gray
+        Color(0xFF000000), // Black
+        Color(0xFFFFFFFF), // White
+        Color(0xFFFFA500), // Orange
+        Color(0xFF800080), // Purple
+        Color(0xFF008080), // Teal
+        Color(0xFF4682B4), // Steel Blue
+        Color(0xFFFFC0CB), // Pink
+        Color(0xFFADFF2F), // Green Yellow
+        Color(0xFF5F9EA0), // Cadet Blue
+        Color(0xFF6495ED), // Cornflower Blue
+        Color(0xFFFFD700), // Gold
+        Color(0xFFDC143C), // Crimson
+        Color(0xFFB22222), // Firebrick
+        Color(0xFF2E8B57), // Sea Green
+        Color(0xFF00CED1), // Dark Turquoise
+        Color(0xFF6A5ACD), // Slate Blue
+        Color(0xFFDA70D6), // Orchid
+        Color(0xFFF08080), // Light Coral
+        Color(0xFF8B4513), // Saddle Brown
+        Color(0xFF00FA9A), // Medium Spring Green
+        Color(0xFF191970), // Midnight Blue
+        Color(0xFFB8860B), // Dark Goldenrod
+        Color(0xFF4169E1), // Royal Blue
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Selecciona un color") },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Elige un color:", modifier = Modifier.padding(bottom = 8.dp))
+                // Grid Layout para los colores
+                Column {
+                    for (i in colors.indices step 5) { // 5 colores por fila
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            colors.subList(i, (i + 5).coerceAtMost(colors.size)).forEach { color ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .background(color)
+                                        .clickable { selectedColor.value = color }
+                                        .border(
+                                            width = 2.dp,
+                                            color = if (selectedColor.value == color) Color.Black else Color.Transparent
+                                        )
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(2.dp))
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text("Aceptar")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
+}
+
+
+// Extensión para convertir Color a formato hexadecimal
+fun Color.toHex(): String {
+    val red = (red * 255).toInt()
+    val green = (green * 255).toInt()
+    val blue = (blue * 255).toInt()
+    return String.format("#%02X%02X%02X", red, green, blue)
 }

@@ -72,6 +72,12 @@ dependencies {
     //Colors
     implementation ("com.google.android.material:material:1.8.0")
 
+    //animaciones(frontend)
+    implementation("androidx.compose.ui:ui:1.7.5")
+    implementation("androidx.compose.animation:animation:1.7.5")
+    //lottie
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

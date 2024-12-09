@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.0")
     implementation("androidx.room:room-ktx:2.5.0")
     implementation(libs.androidx.room.common)
+    implementation(libs.play.services.maps)
     ksp("androidx.room:room-compiler:2.5.0") // Cambia kapt por ksp
 
     // Dagger Hilt
@@ -77,6 +78,8 @@ dependencies {
     implementation("androidx.compose.animation:animation:1.7.5")
     //lottie
     implementation("com.airbnb.android:lottie-compose:5.2.0")
+    //icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
     implementation(libs.androidx.core.ktx)

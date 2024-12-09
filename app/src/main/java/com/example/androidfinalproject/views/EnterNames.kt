@@ -75,7 +75,7 @@ fun EnterTeamNamesView(navController: NavController, viewModel: TeamViewModel = 
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
-
+//
             // Dropdown para Equipo A
             Text(text = "Equipo local", color = ComposeColor.White)
             Box(modifier = Modifier.fillMaxWidth()) {

@@ -45,7 +45,7 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
     val openDialog = remember { mutableStateOf(false) }
 
     // Lottie animation for the volleyball team
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.volleyball1))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.volleyball_scene))
     val progress by animateLottieCompositionAsState(composition, iterations = Int.MAX_VALUE)
 
     // Animations for title (fade-in + slide-up)
@@ -179,7 +179,7 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
+                .height(450.dp)
                 .padding(top = 24.dp)
         ) {
             LottieAnimation(

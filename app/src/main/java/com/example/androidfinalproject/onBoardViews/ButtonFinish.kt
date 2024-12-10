@@ -23,7 +23,7 @@ fun ButtonFinish(currentPage: Int, navController: NavController, store:StoreBoar
          else Arrangement.Center
     ){
         if(currentPage == 2){
-            OutlinedButton(onClick = {navController.navigate("home"){popUpTo(0)} }) {
+            OutlinedButton(onClick = {navController.navigate("Menu"){popUpTo(0)} }) {
                 Text(text="Entrar", modifier = Modifier
                     .padding(vertical=8.dp, horizontal = 40.dp),
                     color = Color.Black)

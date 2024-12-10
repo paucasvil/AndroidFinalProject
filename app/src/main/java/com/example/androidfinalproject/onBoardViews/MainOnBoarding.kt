@@ -22,7 +22,7 @@ fun MainOnBoarding(navController: NavController,store: StoreBoarding){
 
     items.add(
         PageData(
-            R.raw.volleyball1,
+            R.raw.mano,
             "Bienvenid@",
             "Bienvenid@ a VolleyScore "
         )

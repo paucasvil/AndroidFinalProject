@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.example.androidfinalproject.viewmodels.TeamViewModel
 import com.example.androidfinalproject.model.Team
+
+
 
 @Composable
 fun NewMatchView(navController: NavController, teamA: String, teamB: String,
@@ -121,9 +125,18 @@ fun NewMatchView(navController: NavController, teamA: String, teamB: String,
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            colors = buttonColors(
+                containerColor = Color(0xFF1976D2), // Amarillo principal
+                contentColor = Color.White // Texto negro
+            )
         ) {
-            Text(text = "Finalizar Partido")
+            Text(
+                text = "Finalizar Partido",
+                fontSize = 18.sp,
+                fontWeight = Bold
+            )
+
         }
     }
 }

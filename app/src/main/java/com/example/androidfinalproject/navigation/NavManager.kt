@@ -13,10 +13,10 @@ import com.example.androidfinalproject.onBoardViews.MainOnBoarding
 import com.example.androidfinalproject.views.CreateTeamView
 import com.example.androidfinalproject.views.EditTeamView
 import com.example.androidfinalproject.views.EnterTeamNamesView
-import com.example.androidfinalproject.views.HomeView
 import com.example.androidfinalproject.views.MenuView
 import com.example.androidfinalproject.views.NewMatchView
 import com.example.androidfinalproject.views.ShowView
+import com.example.androidfinalproject.views.SplashScreen
 import com.example.androidfinalproject.views.TeamListView
 
 
@@ -26,13 +26,11 @@ fun NavManager() {
     val dataStore = StoreBoarding(context)
     val store=dataStore.getStoreBoarding.collectAsState(initial = false)
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = if(store.value==true) "home" else "onBoarding") {
+    NavHost(navController = navController, startDestination = if(store.value == true) "Menu" else "Splash") {
         composable("onBoarding"){
             MainOnBoarding(navController,dataStore)
         }
-        composable("home"){
-            HomeView(navController)
-        }
+
         composable("Menu") {
             MenuView(navController)
         }
@@ -41,6 +39,9 @@ fun NavManager() {
         }
         composable("Show") {
             ShowView(navController)
+        }
+        composable("Splash"){
+            SplashScreen(navController,store.value)
         }
         composable("NewMatch/{teamAName}/{teamBName}") { navBackStackEntry ->
             // Aquí recuperamos los parámetros

@@ -62,4 +62,9 @@ class TeamViewModel @Inject constructor(private val teamDao: TeamDao) : ViewMode
         }
     }
 
+    fun deleteTeam(team :Team){
+        viewModelScope.launch {
+            teamDao.deleteTeam(team)
+        }
+    }
 }

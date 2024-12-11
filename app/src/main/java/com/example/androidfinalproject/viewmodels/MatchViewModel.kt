@@ -31,4 +31,9 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
             repository.addMatch(match)
         }
     }
+    fun deleteMatch(match: Match){
+        viewModelScope.launch {
+            repository.deleteMatch(match)
+        }
+    }
 }

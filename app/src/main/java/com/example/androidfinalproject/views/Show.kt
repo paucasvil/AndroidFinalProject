@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SportsVolleyball
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -82,7 +83,7 @@ fun ShowView(navController: NavController, viewModel: MatchViewModel = hiltViewM
                         .padding(top = 16.dp) // Espaciado adicional en la parte superior
                 ) {
                     items(matches) { match ->
-                        MatchCard(match = match)
+                        MatchCard(match = match, viewModel = viewModel)
                     }
                 }
             }
@@ -107,7 +108,7 @@ fun ShowView(navController: NavController, viewModel: MatchViewModel = hiltViewM
 }
 
 @Composable
-fun MatchCard(match: Match) {
+fun MatchCard(match: Match, viewModel : MatchViewModel) {
     Card(
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.elevatedCardElevation(8.dp),
@@ -200,6 +201,16 @@ fun MatchCard(match: Match) {
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF1976D2)
+                )
+            }
+            IconButton(
+                onClick = {  viewModel.deleteMatch(match) },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = "Eliminar partido",
+                    tint = Color.Red
                 )
             }
         }

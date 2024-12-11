@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.material.icons.filled.Delete
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.androidfinalproject.R
@@ -114,6 +115,16 @@ fun TeamListView(navController: NavController, viewModel: TeamViewModel = hiltVi
                                         color = Color.White
                                     )
                                 }
+                            }
+                            IconButton(
+                                onClick = { viewModel.deleteTeam(team) },
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Delete,
+                                    contentDescription = "Eliminar equipo",
+                                    tint = Color.Red
+                                )
                             }
                         }
                     }

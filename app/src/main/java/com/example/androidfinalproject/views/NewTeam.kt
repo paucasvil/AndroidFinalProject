@@ -34,6 +34,7 @@ import com.example.androidfinalproject.model.Team
 import com.example.androidfinalproject.viewmodels.TeamViewModel
 //import com.google.android.gms.maps.model.Circle
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.graphics.graphicsLayer
 import java.time.format.TextStyle
 
@@ -62,11 +63,11 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp), // Reducido para un espaciado más compacto
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Espaciado superior para bajar el título
-        Spacer(modifier = Modifier.height(80.dp)) // Ajusta el espaciado según sea necesario
+        // Espaciado superior del título (ajustar si es necesario)
+        Spacer(modifier = Modifier.height(80.dp))
 
         // Título de la pantalla con animación
         Box(
@@ -86,10 +87,21 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
             )
         }
 
-        // Espaciado superior para los campos y botones
-        Spacer(modifier = Modifier.height(40.dp)) // Aquí puedes aumentar o disminuir la distancia
+        // Animación y espaciado personalizado
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp) // Tamaño ajustado para que la animación ocupe menos espacio
+                .padding(top = 16.dp) // Espacio más compacto
+        ) {
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
-        // Campo para el nombre del equipo
+        // Campos de texto y botones ajustados
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
@@ -102,7 +114,6 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
             textStyle = androidx.compose.ui.text.TextStyle(fontSize = 16.sp)
         )
 
-        // Campo para el nombre del entrenador
         OutlinedTextField(
             value = coach,
             onValueChange = { coach = it },
@@ -115,39 +126,28 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
             textStyle = androidx.compose.ui.text.TextStyle(fontSize = 16.sp)
         )
 
-        // Botón para abrir el selector de color
         Button(
             onClick = { openDialog.value = true },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(60.dp)
+                .padding(vertical = 4.dp) // Espaciado reducido
+                .height(50.dp) // Tamaño más compacto
                 .shadow(8.dp, shape = RoundedCornerShape(8.dp)),
-            colors = buttonColors(
-                containerColor = Color(0xFFFFEB3B)
-            )
+            colors = buttonColors(containerColor = Color(0xFFFFEB3B))
         ) {
             Text("Seleccionar Color", color = Color.Black, fontSize = 16.sp)
         }
 
-        // Mostrar el color seleccionado (ahora en un círculo)
+        // Círculo para mostrar el color seleccionado
         Box(
             modifier = Modifier
-                .size(50.dp)
+                .size(40.dp) // Tamaño reducido
                 .background(selectedColor.value, shape = CircleShape)
                 .border(2.dp, Color.Black)
                 .padding(2.dp)
         )
 
-        // Dialog para seleccionar color
-        if (openDialog.value) {
-            ColorPickerDialog(
-                selectedColor = selectedColor,
-                onDismiss = { openDialog.value = false }
-            )
-        }
-
-        // Botón para crear el equipo
+        // Botón "Crear Equipo"
         Button(
             onClick = {
                 if (name.isNotEmpty() && coach.isNotEmpty()) {
@@ -162,33 +162,26 @@ fun CreateTeamView(navController: NavController, viewModel: TeamViewModel = hilt
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(60.dp)
-                .shadow(8.dp, shape = RoundedCornerShape(8.dp)),
-            colors = buttonColors(
-                containerColor = Color(0xFFFFEB3B)
-            )
+                .padding(vertical = 4.dp) // Espaciado reducido
+                .height(50.dp),
+            colors = buttonColors(containerColor = Color(0xFFFFEB3B))
         ) {
             Text("Crear Equipo", color = Color.Black, fontSize = 16.sp)
         }
 
-        // Espaciado para empujar la animación hacia abajo
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Lottie Animation (Volleyball) en la parte inferior
-        Box(
+        // Botón "Atrás" ajustado
+        Button(
+            onClick = { navController.navigate("Menu") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(450.dp)
-                .padding(top = 24.dp)
+                .padding(vertical = 4.dp) // Menos espacio vertical
+                .height(50.dp),
+            colors = buttonColors(containerColor = Color(0xFF1976D2))
         ) {
-            LottieAnimation(
-                composition = composition,
-                progress = { progress },
-                modifier = Modifier.fillMaxSize()
-            )
+            Text("Atrás", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
         }
     }
+
 }
 
 

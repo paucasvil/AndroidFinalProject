@@ -1,6 +1,5 @@
 package com.example.androidfinalproject.views
 
-import android.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -185,6 +184,24 @@ fun EnterTeamNamesView(navController: NavController, viewModel: TeamViewModel = 
                 elevation = ButtonDefaults.buttonElevation(8.dp)
             ) {
                 Text(text = "Iniciar Partido", fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            // Botón de "Atrás" estilizado al final de la pantalla
+            Button(
+                onClick = { navController.navigate("Menu") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = ComposeColor(0xFF1976D2)) // Azul vibrante
+            ) {
+                Text(
+                    text = "Atrás",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = androidx.compose.ui.graphics.Color.White
+                )
             }
         }
     }

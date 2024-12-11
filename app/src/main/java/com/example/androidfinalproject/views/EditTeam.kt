@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SportsVolleyball
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -154,6 +155,21 @@ fun EditTeamView(navController: NavController, teamId: Int, viewModel: TeamViewM
                 color = Color.White // Texto blanco para resaltar sobre el azul
             )
         }
+        Button(
+            onClick = { navController.navigate("Menu") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2)) // Azul vibrante
+        ) {
+            Text(
+                text = "Atrás",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = androidx.compose.ui.graphics.Color.White
+            )
+        }
+
 
         // Lottie Animation (volleyball) en la parte inferior
         Spacer(modifier = Modifier.weight(1f)) // Empujar la animación hacia abajo

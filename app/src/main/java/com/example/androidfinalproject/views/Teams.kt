@@ -61,7 +61,7 @@ fun TeamListView(navController: NavController, viewModel: TeamViewModel = hiltVi
             )
 
             if (teams.isNotEmpty()) {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(modifier = Modifier.weight(1f)) {
                     items(teams) { team ->
                         var isClicked by remember { mutableStateOf(false) }
 
@@ -151,6 +151,24 @@ fun TeamListView(navController: NavController, viewModel: TeamViewModel = hiltVi
                         color = Color.White
                     )
                 }
+
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón de "Atrás" estilizado al final de la pantalla
+            Button(
+                onClick = { navController.navigate("Menu") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2)) // Azul vibrante
+            ) {
+                Text(
+                    text = "Atrás",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = androidx.compose.ui.graphics.Color.White
+                )
             }
         }
     }

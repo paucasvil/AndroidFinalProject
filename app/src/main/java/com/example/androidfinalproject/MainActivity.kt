@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.androidfinalproject.navigation.NavManager
 import com.example.androidfinalproject.onBoardViews.MainOnBoarding
 import com.example.androidfinalproject.ui.theme.AndroidFinalProjectTheme
+import com.example.androidfinalproject.utils.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,20 +23,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val preferenceManager = PreferenceManager(this)
+        val startDestination = if (preferenceManager.isFirstTimeLaunch()) "onBoarding" else "Menu"
         setContent {
-            //NavManager()
             AndroidFinalProjectTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ){
-                    NavManager()
+                ) {
+                    NavManager(startDestination)
                 }
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

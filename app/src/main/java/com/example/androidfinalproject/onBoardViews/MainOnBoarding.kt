@@ -11,13 +11,14 @@ import androidx.navigation.NavController
 import com.example.androidfinalproject.R
 import com.example.androidfinalproject.data.PageData
 import com.example.androidfinalproject.dataStore.StoreBoarding
+import com.example.androidfinalproject.utils.PreferenceManager
 
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 
-@OptIn(ExperimentalPagerApi::class,ExperimentalFoundationApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun MainOnBoarding(navController: NavController,store: StoreBoarding){
+fun MainOnBoarding(navController: NavController, store: StoreBoarding) {
     val items = ArrayList<PageData>()
 
     items.add(
@@ -42,7 +43,7 @@ fun MainOnBoarding(navController: NavController,store: StoreBoarding){
         )
     )
 
-    val pagerState = rememberPagerState (
+    val pagerState = rememberPagerState(
         pageCount = items.size,
         initialOffscreenLimit = 2,
         infiniteLoop = false,
@@ -51,8 +52,12 @@ fun MainOnBoarding(navController: NavController,store: StoreBoarding){
 
     OnBoardingPager(
         item = items, pagerState = pagerState, modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
-        .background(Color.White), navController,store
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(Color.White), navController, store
     )
+
+    // Set the first time launch to false after showing the onboarding
+    val preferenceManager = PreferenceManager(navController.context)
+    preferenceManager.setFirstTimeLaunch(false)
 }

@@ -21,16 +21,15 @@ import com.example.androidfinalproject.views.TeamListView
 
 
 @Composable
-fun NavManager() {
+fun NavManager(startDestination: String) {
     val context = LocalContext.current
     val dataStore = StoreBoarding(context)
-    val store=dataStore.getStoreBoarding.collectAsState(initial = false)
+    val store = dataStore.getStoreBoarding.collectAsState(initial = false)
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = if(store.value == true) "Menu" else "Splash") {
-        composable("onBoarding"){
-            MainOnBoarding(navController,dataStore)
+    NavHost(navController = navController, startDestination = startDestination) {
+        composable("onBoarding") {
+            MainOnBoarding(navController, dataStore)
         }
-
         composable("Menu") {
             MenuView(navController)
         }
@@ -40,20 +39,14 @@ fun NavManager() {
         composable("Show") {
             ShowView(navController)
         }
-        composable("Splash"){
-            SplashScreen(navController,store.value)
+        composable("Splash") {
+            SplashScreen(navController, store.value)
         }
         composable("NewMatch/{teamAName}/{teamBName}") { navBackStackEntry ->
-            // Aquí recuperamos los parámetros
             val teamAName = navBackStackEntry.arguments?.getString("teamAName") ?: "Equipo A"
             val teamBName = navBackStackEntry.arguments?.getString("teamBName") ?: "Equipo B"
-            // Llama a la función de la pantalla NewMatch
             NewMatchView(navController, teamAName, teamBName)
         }
-
-
-
-
         composable("TeamList") {
             TeamListView(navController)
         }
@@ -64,10 +57,5 @@ fun NavManager() {
         composable("CreateTeam") {
             CreateTeamView(navController)
         }
-
     }
 }
-
-
-
-
